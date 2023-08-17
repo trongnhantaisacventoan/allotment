@@ -94,6 +94,7 @@ export type AllotmentHandle = {
 };
 
 export type AllotmentProps = {
+  shadownDocument: Document;
   children: React.ReactNode;
   /** Initial size of each element */
   defaultSizes?: number[];
@@ -136,6 +137,7 @@ const Allotment = forwardRef<AllotmentHandle, AllotmentProps>(
       defaultSizes = sizes,
       snap = false,
       vertical = false,
+      shadownDocument = document,
       onChange,
       onReset,
       onVisibleChange,
@@ -227,7 +229,7 @@ const Allotment = forwardRef<AllotmentHandle, AllotmentProps>(
                 );
 
                 const view = new PaneView(layoutService.current, {
-                  element: document.createElement("div"),
+                  element: shadownDocument.createElement("div"),
                   minimumSize: props?.minSize ?? minSize,
                   maximumSize: props?.maxSize ?? maxSize,
                   priority: props?.priority ?? LayoutPriority.Normal,
@@ -252,6 +254,7 @@ const Allotment = forwardRef<AllotmentHandle, AllotmentProps>(
       splitViewRef.current = new SplitView(
         containerRef.current,
         options,
+        shadownDocument,
         onChange,
         onDragStart,
         onDragEnd
@@ -331,7 +334,7 @@ const Allotment = forwardRef<AllotmentHandle, AllotmentProps>(
           const props = splitViewPropsRef.current.get(enterKey);
 
           const view = new PaneView(layoutService.current, {
-            element: document.createElement("div"),
+            element: shadownDocument.createElement("div"),
             minimumSize: props?.minSize ?? minSize,
             maximumSize: props?.maxSize ?? maxSize,
             priority: props?.priority ?? LayoutPriority.Normal,
@@ -489,9 +492,9 @@ const Allotment = forwardRef<AllotmentHandle, AllotmentProps>(
 
     useEffect(() => {
       if (isIOS) {
-        setSashSize(20);
+        setSashSize(shadownDocument, 20);
       }
-    }, []);
+    }, [shadownDocument]);
 
     return (
       <div
@@ -569,12 +572,12 @@ Allotment.displayName = "Allotment";
  *
  * @param sashSize Sash size in pixels
  */
-export function setSashSize(sashSize: number) {
+export function setSashSize(shadownDocument: Document, sashSize: number) {
   const size = clamp(sashSize, 4, 20);
   const hoverSize = clamp(sashSize, 1, 8);
 
-  document.documentElement.style.setProperty("--sash-size", size + "px");
-  document.documentElement.style.setProperty(
+  shadownDocument.documentElement.style.setProperty("--sash-size", size + "px");
+  shadownDocument.documentElement.style.setProperty(
     "--sash-hover-size",
     hoverSize + "px"
   );

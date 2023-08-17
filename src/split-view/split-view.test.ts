@@ -33,7 +33,10 @@ class TestView implements View {
     return this._orthogonalSize;
   }
 
-  constructor(private _minimumSize: number, private _maximumSize: number) {}
+  constructor(
+    private _minimumSize: number,
+    private _maximumSize: number
+  ) {}
 
   layout(size: number, _offset: number): void {
     this._size = size;
@@ -51,7 +54,7 @@ describe("Splitview", () => {
   });
 
   test("empty splitview has empty DOM", () => {
-    const splitview = new SplitView(viewContainer);
+    const splitview = new SplitView(viewContainer, undefined, document);
 
     expect(
       container.firstElementChild!.firstElementChild!.childElementCount
@@ -64,7 +67,7 @@ describe("Splitview", () => {
     const view1 = new TestView(20, 20);
     const view2 = new TestView(20, 20);
     const view3 = new TestView(20, 20);
-    const splitview = new SplitView(viewContainer);
+    const splitview = new SplitView(viewContainer, undefined, document);
 
     // TODO: This reflects an issue where we rely on React to add and remove the containing elements
     //       So in this test, with no React, calling removeView does not affect the DOM

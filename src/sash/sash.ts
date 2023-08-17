@@ -127,7 +127,8 @@ export class Sash extends EventEmitter implements Disposable {
   constructor(
     container: HTMLElement,
     layoutProvider: VerticalSashLayoutProvider,
-    options: SashOptions
+    options: SashOptions,
+    shadowDocument: Document
   );
 
   /**
@@ -140,16 +141,18 @@ export class Sash extends EventEmitter implements Disposable {
   constructor(
     container: HTMLElement,
     layoutProvider: HorizontalSashLayoutProvider,
-    options: SashOptions
+    options: SashOptions,
+    shadowDocument: Document
   );
   constructor(
     container: HTMLElement,
     layoutProvider: SashLayoutProvider,
-    options: SashOptions
+    options: SashOptions,
+    shadowDocument: Document
   ) {
     super();
 
-    this.el = document.createElement("div");
+    this.el = shadowDocument.createElement("div");
     this.el.classList.add("sash", styles.sash);
     this.el.dataset.testid = "sash";
     container.append(this.el);

@@ -360,15 +360,20 @@ export class SplitView extends EventEmitter implements Disposable {
     this.updateSashEnablement();
   }
 
+  shadowDocument: Document;
+
   /** Create a new {@link SplitView} instance. */
   constructor(
     container: HTMLElement,
     options: SplitViewOptions = {},
+    shadowDocument: Document,
     onDidChange?: (sizes: number[]) => void,
     onDidDragStart?: (sizes: number[]) => void,
     onDidDragEnd?: (sizes: number[]) => void
   ) {
     super();
+
+    this.shadowDocument = shadowDocument;
 
     this.orientation = options.orientation ?? Orientation.Vertical;
     this.proportionalLayout = options.proportionalLayout ?? true;
@@ -378,15 +383,15 @@ export class SplitView extends EventEmitter implements Disposable {
       this.onDidChange = onDidChange;
     }
 
-    if(onDidDragStart){
+    if (onDidDragStart) {
       this.onDidDragStart = onDidDragStart;
     }
 
-    if(onDidDragEnd){
+    if (onDidDragEnd) {
       this.onDidDragEnd = onDidDragEnd;
     }
 
-    this.sashContainer = document.createElement("div");
+    this.sashContainer = shadowDocument.createElement("div");
 
     this.sashContainer.classList.add("sash-container", styles.sashContainer);
     container.prepend(this.sashContainer); // Should always be first child
@@ -457,7 +462,8 @@ export class SplitView extends EventEmitter implements Disposable {
                 getHorizontalSashTop: (s) => this.getSashPosition(s),
                 getHorizontalSashWidth: this.getSashOrthogonalSize,
               },
-              { orientation: Orientation.Horizontal }
+              { orientation: Orientation.Horizontal },
+              this.shadowDocument
             )
           : new Sash(
               this.sashContainer,
@@ -465,7 +471,8 @@ export class SplitView extends EventEmitter implements Disposable {
                 getVerticalSashLeft: (s) => this.getSashPosition(s),
                 getVerticalSashHeight: this.getSashOrthogonalSize,
               },
-              { orientation: Orientation.Vertical }
+              { orientation: Orientation.Vertical },
+              this.shadowDocument
             );
 
       const sashEventMapper =
@@ -485,7 +492,7 @@ export class SplitView extends EventEmitter implements Disposable {
         this.emit("sashDragStart");
         this.onSashStart(sashEventMapper(event));
         const sizes = this.viewItems.map((i) => i.size);
-        this.onDidDragStart?.(sizes)
+        this.onDidDragStart?.(sizes);
       });
 
       sash.on("change", (event: BaseSashEvent) =>
@@ -496,8 +503,7 @@ export class SplitView extends EventEmitter implements Disposable {
         this.emit("sashDragEnd");
         this.onSashEnd(this.sashItems.findIndex((item) => item.sash === sash));
         const sizes = this.viewItems.map((i) => i.size);
-        this.onDidDragEnd?.(sizes)
- 
+        this.onDidDragEnd?.(sizes);
       });
 
       sash.on("reset", () => {
@@ -1105,7 +1111,6 @@ export class SplitView extends EventEmitter implements Disposable {
     }
 
     this.onDidChange?.(this.viewItems.map((viewItem) => viewItem.size));
-
 
     // Layout sashes
     this.sashItems.forEach((item) => item.sash.layout());

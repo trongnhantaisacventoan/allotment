@@ -20,7 +20,7 @@ export default {
 
 export const Simple: Story = () => (
   <div className={styles.container}>
-    <Allotment vertical>
+    <Allotment shadownDocument={document} vertical>
       <Content />
       <Content />
     </Allotment>
@@ -89,6 +89,7 @@ export const PersistSizes: Story<{ numViews: number; vertical: boolean }> = ({
     <div className={styles.container}>
       {hasReadFromLocalStorage && (
         <Allotment
+          shadownDocument={document}
           vertical={vertical}
           onChange={handleChange}
           defaultSizes={sizes}
@@ -109,9 +110,9 @@ PersistSizes.args = {
 export const Nested: Story = () => {
   return (
     <div className={styles.container} style={{ minHeight: 200, minWidth: 200 }}>
-      <Allotment minSize={100}>
+      <Allotment minSize={100} shadownDocument={document}>
         <Allotment.Pane maxSize={400}>
-          <Allotment vertical>
+          <Allotment vertical shadownDocument={document}>
             <Allotment.Pane minSize={100}>
               <Content />
             </Allotment.Pane>
@@ -137,10 +138,10 @@ export const Closable: Story = () => {
 
   return (
     <div className={styles.container} style={{ minHeight: 200, minWidth: 200 }}>
-      <Allotment vertical minSize={100}>
+      <Allotment vertical minSize={100} shadownDocument={document}>
         {panes.length !== 0 ? (
           <Allotment.Pane maxSize={400}>
-            <Allotment>
+            <Allotment shadownDocument={document}>
               {panes.map((pane) => (
                 <Allotment.Pane key={pane}>
                   <Content />
@@ -291,12 +292,12 @@ DefaultSize.args = {
 
 export const ConfigureSash: Story = ({ sashSize, ...args }) => {
   useEffect(() => {
-    setSashSize(sashSize);
+    setSashSize(document, sashSize);
   }, [sashSize]);
 
   return (
     <div className={styles.container}>
-      <Allotment {...args}>
+      <Allotment shadownDocument={document} {...args}>
         <Content />
         <Content />
       </Allotment>
@@ -310,7 +311,7 @@ ConfigureSash.args = {
 export const PaneClassName: Story = (args) => {
   return (
     <div className={styles.container}>
-      <Allotment {...args}>
+      <Allotment shadownDocument={document} {...args}>
         <Allotment.Pane className={styles.customPane}>
           <div className={styles.customPaneContent}>div1</div>
         </Allotment.Pane>
@@ -400,7 +401,12 @@ export const OnReset: Story = (args) => {
 
   return (
     <div className={styles.container}>
-      <Allotment ref={ref} {...args} onReset={handleReset}>
+      <Allotment
+        shadownDocument={document}
+        ref={ref}
+        {...args}
+        onReset={handleReset}
+      >
         <Content />
         <Content />
       </Allotment>
@@ -412,7 +418,7 @@ OnReset.args = {};
 export const FixedSize: Story = (args) => {
   return (
     <div className={styles.container}>
-      <Allotment>
+      <Allotment shadownDocument={document}>
         <Allotment.Pane minSize={48} maxSize={48}>
           <Content />
         </Allotment.Pane>
@@ -448,7 +454,7 @@ export const PreferredSize: Story = (args) => {
         {`Random preferredSize: ${preferredSize}`}
       </button>
       <div className={styles.container}>
-        <Allotment ref={ref}>
+        <Allotment shadownDocument={document} ref={ref}>
           <Allotment.Pane preferredSize={"20%"}>
             <Content />
           </Allotment.Pane>
@@ -467,7 +473,7 @@ PreferredSize.args = {};
 
 export const NoSeparator: Story = ({ separator }) => (
   <div className={styles.container}>
-    <Allotment vertical separator={separator}>
+    <Allotment shadownDocument={document} vertical separator={separator}>
       <Content />
       <Content />
     </Allotment>
@@ -503,11 +509,12 @@ export const MeasureSize: Story = () => {
         ref={containerRef}
       >
         <Allotment
+          shadownDocument={document}
           minSize={100}
           onChange={() => setCount((count) => count + 1)}
         >
           <Allotment.Pane maxSize={400}>
-            <Allotment vertical>
+            <Allotment vertical shadownDocument={document}>
               <Allotment.Pane minSize={100} ref={paneRef}>
                 <Content />
               </Allotment.Pane>

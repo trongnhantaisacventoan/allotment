@@ -31,7 +31,7 @@ export const Sidebar = ({
         </div>
       </div>
       <div className={styles.content}>
-        <Allotment vertical>
+        <Allotment shadownDocument={document} vertical>
           <Allotment.Pane
             key="openEditors"
             maxSize={22 + openEditors.length * 22}

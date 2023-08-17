@@ -88,7 +88,7 @@ export const App = ({
   );
 
   return (
-    <Allotment proportionalLayout={false}>
+    <Allotment shadownDocument={document} proportionalLayout={false}>
       <Allotment.Pane
         key="activityBar"
         minSize={48}
@@ -116,6 +116,7 @@ export const App = ({
         priority={LayoutPriority.High}
       >
         <Allotment
+          shadownDocument={document}
           vertical
           snap
           onVisibleChange={(index, value) => {

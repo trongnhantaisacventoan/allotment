@@ -13,7 +13,11 @@ export type EditorProps = {
 export const Editor = ({ documents, onDocumentsChange }: EditorProps) => {
   return (
     <div className={styles.content}>
-      <Allotment className={styles.allotment} minSize={110}>
+      <Allotment
+        shadownDocument={document}
+        className={styles.allotment}
+        minSize={110}
+      >
         {documents.length > 0 ? (
           documents.map((document, index) => (
             <EditorGroupContainer

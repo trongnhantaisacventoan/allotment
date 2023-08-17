@@ -48,7 +48,7 @@ export type AllotmentHandle = {
     resize: (sizes: number[]) => void;
 };
 export type AllotmentProps = {
-    shadownDocument: Document;
+    shadownDocument?: Document;
     children: React.ReactNode;
     /** Initial size of each element */
     defaultSizes?: number[];
@@ -81,7 +81,7 @@ export type AllotmentProps = {
  */
 export declare function setSashSize(shadownDocument: Document, sashSize: number): void;
 declare const _default: React.ForwardRefExoticComponent<{
-    shadownDocument: Document;
+    shadownDocument?: Document | undefined;
     children: React.ReactNode;
     /** Initial size of each element */
     defaultSizes?: number[] | undefined;

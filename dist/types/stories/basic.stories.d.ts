@@ -5,7 +5,7 @@ declare const _default: import("@storybook/types").ComponentAnnotations<import("
 export default _default;
 export declare const Simple: Story;
 export declare const Vertical: import("@storybook/types").AnnotatedStoryFn<import("@storybook/react/dist/types-0a347bb9").R, {
-    shadownDocument: Document;
+    shadownDocument?: Document | undefined;
     children: import("react").ReactNode;
     defaultSizes?: number[] | undefined;
     proportionalLayout?: boolean | undefined;
@@ -21,7 +21,7 @@ export declare const Vertical: import("@storybook/types").AnnotatedStoryFn<impor
     numViews: number;
 }>;
 export declare const Horizontal: import("@storybook/types").AnnotatedStoryFn<import("@storybook/react/dist/types-0a347bb9").R, {
-    shadownDocument: Document;
+    shadownDocument?: Document | undefined;
     children: import("react").ReactNode;
     defaultSizes?: number[] | undefined;
     proportionalLayout?: boolean | undefined;

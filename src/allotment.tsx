@@ -94,7 +94,7 @@ export type AllotmentHandle = {
 };
 
 export type AllotmentProps = {
-  shadownDocument: Document;
+  shadownDocument?: Document;
   children: React.ReactNode;
   /** Initial size of each element */
   defaultSizes?: number[];
